@@ -13,11 +13,11 @@ string[] messageWords = originalMessage.Split(' '); // This should split message
 
 string pigLatinMessage = "";
 
-Console.WriteLine("Your message was: ");
+/*Console.WriteLine("Your message was: ");      //  Debugging code.
 foreach (string word in messageWords)
 {
     Console.WriteLine(word);
-}
+}*/
 
 for (int i = 0; i < messageWords.Length; i++)       // Check each word in the message.
 {
@@ -40,20 +40,12 @@ for (int i = 0; i < messageWords.Length; i++)       // Check each word in the me
             location = j;
             break;
         }
-
     }
-    for (int k = location; k < givenWord.Length; k++)
-    {
-        pigLatinWord = pigLatinWord + givenWord[k];
-    }
-    for (int m = 0; m < location; m++)
-    {
-        pigLatinWord = pigLatinWord + givenWord[m];
-    }
-    pigLatinMessage = pigLatinMessage + " " + pigLatinWord + "ay";
-    Console.WriteLine(pigLatinMessage);
+        
+    pigLatinMessage = pigLatinMessage + " " + PigLatinWord(givenWord,  location);
+    
 }
-//Console.WriteLine(pigL)
+Console.WriteLine(pigLatinMessage);
 
 bool IsVowel(char x)
 {
@@ -67,14 +59,27 @@ bool IsVowel(char x)
     return isVowelM;
 }
 
-/*
-string VowelStart(string word)
+
+string PigLatinWord(string givenWord, int location)
 {
-    string pigLatinWord = word + "way";
-    return pigLatinWord;
+    string pigLatinWord = "";
+    if (location == 0)
+    {
+        pigLatinWord = givenWord + "way";
+        return pigLatinWord;
+    }
+    else
+    {
+        for (int k = location; k < givenWord.Length; k++)
+        {
+            pigLatinWord = pigLatinWord + givenWord[k];
+        }
+        for (int m = 0; m < location; m++)
+        {
+            pigLatinWord = pigLatinWord + givenWord[m];
+        }
+        pigLatinWord = pigLatinWord + "ay";
+        return pigLatinWord;
+    }
 }
 
-string ConsonantStart(string word, int location)
-{
-
-}*/
