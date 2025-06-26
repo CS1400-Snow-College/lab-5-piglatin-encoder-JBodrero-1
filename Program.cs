@@ -8,8 +8,8 @@ Console.Write("Welcome to the PigLatin encoder.  \nPlease enter your message to 
 
 string originalMessage = Console.ReadLine();
 Console.WriteLine(originalMessage);     //  Verify message intered correctly.
-
-string[] messageWords = originalMessage.Split(' '); // This should split message into words.
+string originalMessageLower = originalMessage.ToLower();
+string[] messageWords = originalMessageLower.Split(' '); // This should split message into words.
 
 string pigLatinMessage = "";
 
@@ -19,7 +19,7 @@ foreach (string word in messageWords)
     Console.WriteLine(word);
 }*/
 
-for (int i = 0; i < messageWords.Length; i++)       // Check each word in the message.
+for (int i = 0; i < messageWords.Length - 1; i++)       // Check each word in the message up to last word.
 {
     string givenWord = messageWords[i];
     string pigLatinWord = "";
@@ -28,12 +28,10 @@ for (int i = 0; i < messageWords.Length; i++)       // Check each word in the me
     int location = 0;
 
 
-
-
     for (int j = 0; j < givenWord.Length; j++)  //  Analyze a word in the message.
     {
-        string wordTempConsonant = givenWord.ToLower();  //  Convert word to lowercase for easier analysis.
-        letterToAnalyze = wordTempConsonant[j];         //  Get each letter
+        //string wordTempConsonant = givenWord.ToLower();  //  Convert word to lowercase for easier analysis.
+        letterToAnalyze = givenWord[j];         //  Get each letter
 
         if (IsVowel(letterToAnalyze))           //  Check if letter is vowel
         {
@@ -41,10 +39,36 @@ for (int i = 0; i < messageWords.Length; i++)       // Check each word in the me
             break;
         }
     }
-        
-    pigLatinMessage = pigLatinMessage + " " + PigLatinWord(givenWord,  location);
-    
+
+    pigLatinMessage = pigLatinMessage + " " + PigLatinWord(givenWord, location);
+
 }
+//  Check for punctuation at end of message
+string lastWord = messageWords[messageWords.Length - 1];
+if (HasPunctuation(lastWord))
+{
+    int location = 0;
+    char letterToAnalyze;
+    char lastChar = lastWord[lastWord.Length - 1];
+    string tempWord = lastWord.Trim(lastChar);
+    for (int j = 0; j < tempWord.Length; j++)  //  Analyze a word in the message.
+    {
+        //string wordTempConsonant = tempWord.ToLower();  //  Convert word to lowercase for easier analysis.
+        letterToAnalyze = tempWord[j];         //  Get each letter
+
+        if (IsVowel(letterToAnalyze))           //  Check if letter is vowel
+        {
+            location = j;
+            break;
+        }
+    }
+
+    pigLatinMessage = pigLatinMessage + " " + PigLatinWord(tempWord, location) + lastChar;
+    //PigLatinWord(temp)
+}
+//Console.WriteLine($"Last word has punctuation" + HasPunctuation(lastWord));
+
+
 Console.WriteLine(pigLatinMessage);
 
 bool IsVowel(char x)
@@ -83,3 +107,13 @@ string PigLatinWord(string givenWord, int location)
     }
 }
 
+bool HasPunctuation(string givenWord)
+{
+    bool hasPunct = false;
+    char lastChar = givenWord[givenWord.Length - 1];
+    if (lastChar == '.' || lastChar == '?' || lastChar == ',' || lastChar == ';' || lastChar == '!')
+    {
+        hasPunct = true;
+    }
+    return hasPunct;
+}
