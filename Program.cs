@@ -7,17 +7,15 @@ Console.Clear();
 Console.Write("Welcome to the PigLatin encoder.  \nPlease enter your message to encrypt: ");
 
 string originalMessage = Console.ReadLine();
-Console.WriteLine(originalMessage);     //  Verify message intered correctly.
-string originalMessageLower = originalMessage.ToLower();
-string[] messageWords = originalMessageLower.Split(' '); // This should split message into words.
+//Console.WriteLine(originalMessage);     //  Verify message entered correctly.
+string originalMessageLower = originalMessage.ToLower();    //  Turn all to lower case at front.
+string[] messageWords = originalMessageLower.Split(' '); // This should split message into lower case words.
 
 string pigLatinMessage = "";
+string shiftedMessage = "";
+Random random = new Random();
+int shift = random.Next(1, 26);
 
-/*Console.WriteLine("Your message was: ");      //  Debugging code.
-foreach (string word in messageWords)
-{
-    Console.WriteLine(word);
-}*/
 
 for (int i = 0; i < messageWords.Length - 1; i++)       // Check each word in the message up to last word.
 {
@@ -53,7 +51,6 @@ if (HasPunctuation(lastWord))
     string tempWord = lastWord.Trim(lastChar);
     for (int j = 0; j < tempWord.Length; j++)  //  Analyze a word in the message.
     {
-        //string wordTempConsonant = tempWord.ToLower();  //  Convert word to lowercase for easier analysis.
         letterToAnalyze = tempWord[j];         //  Get each letter
 
         if (IsVowel(letterToAnalyze))           //  Check if letter is vowel
@@ -63,13 +60,48 @@ if (HasPunctuation(lastWord))
         }
     }
 
-    pigLatinMessage = pigLatinMessage + " " + PigLatinWord(tempWord, location) + lastChar;
-    //PigLatinWord(temp)
+    pigLatinMessage = pigLatinMessage + " " + PigLatinWord(tempWord, location) + lastChar; 
 }
-//Console.WriteLine($"Last word has punctuation" + HasPunctuation(lastWord));
+else
+{
+    int location = 0;
+    for (int j = 0; j < lastWord.Length; j++)  //  Analyze a word in the message.
+    {
+        char letterToAnalyze = lastWord[j];         //  Get each letter
 
 
-Console.WriteLine(pigLatinMessage);
+        if (IsVowel(letterToAnalyze))           //  Check if letter is vowel
+        {
+            location = j;
+            break;
+        }
+    }
+
+    pigLatinMessage = pigLatinMessage + " " + PigLatinWord(lastWord, location);
+
+}
+
+    for (int i = 0; i < pigLatinMessage.Length - 1; i++)        //  Shift each letter before last character in message.
+    {
+        char x = pigLatinMessage[i];
+        char y = ShiftChar(x, shift);
+        shiftedMessage = shiftedMessage + y;
+    }
+
+char lastCharPunctuation = pigLatinMessage[pigLatinMessage.Length - 1];     //  Handle last char as punctuation or not.
+if (lastCharPunctuation == '.' || lastCharPunctuation == '?' || lastCharPunctuation == ',' || lastCharPunctuation == ';' || lastCharPunctuation == '!')
+{
+    shiftedMessage = shiftedMessage + lastCharPunctuation;
+}
+else
+{
+    shiftedMessage = shiftedMessage + ShiftChar(lastCharPunctuation, shift);
+}
+
+
+Console.WriteLine($"In Pig Latin, your message is: {pigLatinMessage}.");        //  Write PigLatin message
+Console.WriteLine($"Encrypted with a shift of {shift} we get: {shiftedMessage}"); // Write shifted message.
+
 
 bool IsVowel(char x)
 {
@@ -116,4 +148,28 @@ bool HasPunctuation(string givenWord)
         hasPunct = true;
     }
     return hasPunct;
+}
+
+
+
+char ShiftChar(char c, int shift)
+{
+    int charNum;
+    int charNumShift;
+    char charFinal;
+    if (c != ' ')
+    {
+        charNum = (int)c;
+        charNumShift = charNum + shift;
+        if (charNumShift <= 122)
+        { charFinal = (char)charNumShift; }
+        else
+        {
+            charFinal = (char) (charNumShift-26);
+        }
+        ;
+        return charFinal;
+    }
+    return c;
+
 }

@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("lab-5-piglatin-encoder-JBodrero-1")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+dad7cb6a884571d225db512d22e17b282db05805")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fa6cccc7b78322589c69e63b01f3a28210e6b62c")]
 [assembly: System.Reflection.AssemblyProductAttribute("lab-5-piglatin-encoder-JBodrero-1")]
 [assembly: System.Reflection.AssemblyTitleAttribute("lab-5-piglatin-encoder-JBodrero-1")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
